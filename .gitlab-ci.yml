@@ -1,0 +1,21 @@
+stages:
+  - test
+
+junit:
+  stage: test
+  image: maven
+  before_script:
+    - mvn clean package
+  script:
+    - mkdir ./database
+    - java -jar target/server.jar database &
+    - java -jar target/client.jar book.pdf
+    - ls
+    - ls ./database
+    - sha_1=`sha256sum database/book.pdf | cut -d " " -f 1`
+    - sha_2=`sha256sum book.pdf | cut -d " " -f 1`
+    - if [ $sha_1 != $sha_2 ]; then exit 1; fi
+  only:
+    - pushes
+    - merge_request
+    - master
