@@ -1,7 +1,7 @@
 stages:
   - test
 
-junit:
+tester:
   stage: test
   image: maven
   before_script:
@@ -13,7 +13,9 @@ junit:
     - ls
     - ls ./database
     - sha_1=`sha256sum database/book.pdf | cut -d " " -f 1`
+    - echo "$sha_1"
     - sha_2=`sha256sum book.pdf | cut -d " " -f 1`
+    - echo "$sha_2"
     - if [ $sha_1 != $sha_2 ]; then exit 1; fi
   only:
     - pushes
