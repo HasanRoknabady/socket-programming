@@ -12,8 +12,12 @@ public class Server {
      * @param args an string array with one element
      * @throws IOException
      */
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException
+    {
         // below is the name of directory which you must save the file in it
         String directory = args[0];     // default: "server-database"
+
+        ServerHandler serverHandler = new ServerHandler();
+        serverHandler.handle_files(directory);
     }
 }
